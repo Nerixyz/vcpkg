@@ -1,0 +1,51 @@
+diff --git a/extensions/CMakeLists.txt b/extensions/CMakeLists.txt
+index a29c8d5..b843a09 100644
+--- a/extensions/CMakeLists.txt
++++ b/extensions/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ set(LIBRARY "libcmark-gfm-extensions")
+-set(STATICLIBRARY "libcmark-gfm-extensions_static")
++set(STATICLIBRARY "libcmark-gfm-extensions")
+ set(LIBRARY_SOURCES
+     core-extensions.c
+     table.c
+@@ -55,7 +55,7 @@ if (CMARK_STATIC)
+ 
+   if (MSVC)
+     set_target_properties(${STATICLIBRARY} PROPERTIES
+-      OUTPUT_NAME "cmark-gfm-extensions_static"
++      OUTPUT_NAME "cmark-gfm-extensions"
+       VERSION ${PROJECT_VERSION})
+   else()
+     set_target_properties(${STATICLIBRARY} PROPERTIES
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index a01d8c6..eeec926 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -5,7 +5,7 @@ endif()
+ include(GNUInstallDirs)
+ 
+ set(LIBRARY "libcmark-gfm")
+-set(STATICLIBRARY "libcmark-gfm_static")
++set(STATICLIBRARY "libcmark-gfm")
+ set(HEADERS
+   cmark-gfm.h
+   cmark-gfm-extension_api.h
+@@ -81,7 +81,7 @@ add_executable(${PROGRAM} ${PROGRAM_SOURCES})
+ if(CMARK_SHARED)
+   target_link_libraries(${PROGRAM} libcmark-gfm-extensions libcmark-gfm)
+ elseif(CMARK_STATIC)
+-  target_link_libraries(${PROGRAM} libcmark-gfm-extensions_static libcmark-gfm_static)
++  target_link_libraries(${PROGRAM} libcmark-gfm-extensions libcmark-gfm)
+ endif()
+ 
+ # Disable the PUBLIC declarations when compiling the executable:
+@@ -128,7 +128,7 @@ if (CMARK_STATIC)
+ 
+   if (MSVC)
+     set_target_properties(${STATICLIBRARY} PROPERTIES
+-      OUTPUT_NAME "cmark-gfm_static"
++      OUTPUT_NAME "cmark-gfm"
+       VERSION ${PROJECT_VERSION})
+   else()
+     set_target_properties(${STATICLIBRARY} PROPERTIES

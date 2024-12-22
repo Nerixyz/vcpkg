@@ -1,0 +1,56 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a6a663c..77fc1d7 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -30,6 +30,8 @@ endif()
+ 
+ add_subdirectory(src)
+ add_subdirectory(extensions)
++install(EXPORT cmark-gfm FILE unofficial-cmark-gfm-config.cmake NAMESPACE unofficial::cmark-gfm:: DESTINATION share/unofficial-cmark-gfm)
++
+ if(CMARK_TESTS AND (CMARK_SHARED OR CMARK_STATIC))
+   add_subdirectory(api_test)
+ endif()
+diff --git a/extensions/CMakeLists.txt b/extensions/CMakeLists.txt
+index 135d28d..7a373c2 100644
+--- a/extensions/CMakeLists.txt
++++ b/extensions/CMakeLists.txt
+@@ -74,8 +74,9 @@ endif()
+ set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_NO_WARNINGS ON)
+ 
+ include (InstallRequiredSystemLibraries)
++target_include_directories(${CMARK_INSTALL} INTERFACE $<INSTALL_INTERFACE:include>)
+ install(TARGETS ${CMARK_INSTALL}
+-  EXPORT cmark-gfm-extensions
++  EXPORT cmark-gfm
+   RUNTIME DESTINATION bin
+   LIBRARY DESTINATION lib${LIB_SUFFIX}
+   ARCHIVE DESTINATION lib${LIB_SUFFIX}
+@@ -88,7 +89,6 @@ if (CMARK_SHARED OR CMARK_STATIC)
+   DESTINATION include
+   )
+ 
+-  install(EXPORT cmark-gfm-extensions DESTINATION lib${LIB_SUFFIX}/cmake-gfm-extensions)
+ endif()
+ 
+ # Feature tests
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 884163b..241db3c 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -156,6 +156,7 @@ endif()
+ 
+ set(libdir lib${LIB_SUFFIX})
+ 
++target_include_directories(${CMARK_INSTALL} INTERFACE $<INSTALL_INTERFACE:include>)
+ install(TARGETS ${CMARK_INSTALL}
+   EXPORT cmark-gfm
+   RUNTIME DESTINATION bin
+@@ -184,7 +185,6 @@ if(CMARK_SHARED OR CMARK_STATIC)
+     DESTINATION include
+     )
+ 
+-  install(EXPORT cmark-gfm DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
+ endif()
+ 
+ # Feature tests
